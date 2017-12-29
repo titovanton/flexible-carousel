@@ -109,6 +109,8 @@
                         left: left + $prev.width()
                     , config.duration
                     rotated = true
+                    if !config.active().prev().size()
+                        config.$arrowPrev.addClass('disable')
 
                 # next
                 else if direction == 'next' and $next.size()
@@ -137,10 +139,18 @@
 
         clickPrev = () ->
             rotate 'prev'
+            config.$arrowNext.removeClass('disable')
 
         clickNext = () ->
+            vars = $(@).data 'flexibleCarousel.vars'
+            config = $(@).data 'flexibleCarousel.config'
+
             $(@).trigger('flexibleCarousel.needItem')
+            if !vars.hasNext
+                config.$arrowNext.addClass('disable')
             rotate 'next'
+
+            config.$arrowPrev.removeClass('disable')
 
         itemLoaded = (e, item) ->
             vars = $(@).data 'flexibleCarousel.vars'
